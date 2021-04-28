@@ -154,39 +154,3 @@ void fillRpiiDAY(rpiij_t rpiiDAY, tek_t tek, interval_t day_i) {
   };
 }
 
-int main(int argc, char ** argv) {
-	if (argc < 2 || argc > 3) {
-		fprintf(stderr,"Syntax: %s  <TEK> [interval]\n",argv[0]);
-		exit(1);
-	};
-
-	char * tek_as_str = argv[1];
-	if (strlen(tek_as_str) != 16 * 2) {
-		fprintf(stderr,"Not a valid HEX 16 digit tex\n");
-		exit(1);
-	};
-
-	tek_t tek;
-	for(int i = 0;i < 16;i++) {
-		char hex[3] = { tek_as_str[i*2], tek_as_str[i*2+1], 0 };
-		tek[i] = strtoul(hex,NULL,16);
-	};
-	printf("TEK     : "); printhex(tek,sizeof(tek)); printf("\n");
-
-	interval_t day_i = time2startinterval(time(NULL));
-        if (argc > 2) 
-		day_i = atoi(argv[2]);
-
-	printf("Period  : %d\n", day_i);
-
-        printf("RPIs for this day:\n");
-
-	rpik_t rpik;
-	fillRpik(rpik, tek);
-
-  	for (int j = 0; j < TEKRollingPeriod; j++) {
-		rpik_t rpikij;
-    		fillRpiij(rpikij, rpik, day_i + j);
-		printf("  %05d: ",j);printhex(rpikij,16); printf("\n");
-  	};
-}
