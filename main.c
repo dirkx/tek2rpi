@@ -6,24 +6,29 @@
 //
 
 #include "gaen.h"
+#include "mbedtls/base64.h"
 
 int main(int argc, char ** argv) {
 	if (argc < 2 || argc > 3) {
-		fprintf(stderr,"Syntax: %s  <TEK> [interval]\n",argv[0]);
+		fprintf(stderr,"Syntax: %s  <TEK as Hex or base64> [interval]\n",argv[0]);
 		exit(1);
 	};
 
-	char * tek_as_str = argv[1];
-	if (strlen(tek_as_str) != 16 * 2) {
-		fprintf(stderr,"Not a valid HEX 16 digit tex\n");
-		exit(1);
-	};
-
+	const char * tek_as_str = argv[1];
 	tek_t tek;
-	for(int i = 0;i < 16;i++) {
-		char hex[3] = { tek_as_str[i*2], tek_as_str[i*2+1], 0 };
-		tek[i] = strtoul(hex,NULL,16);
+	size_t olen = 0;
+
+	if (strlen(tek_as_str) == 16 * 2) {
+	 	for(int i = 0;i < 16;i++) {
+			char hex[3] = { tek_as_str[i*2], tek_as_str[i*2+1], 0 };
+			tek[i] = strtoul(hex,NULL,16);
+		};
+	} 
+	else if (mbedtls_base64_decode(tek, 16, &olen, (const unsigned char *)tek_as_str, strlen(tek_as_str)) != 0 || olen != 16) {
+		fprintf(stderr,"Not a valid HEX 16 digit or base64 tek\n");
+		exit(1);
 	};
+
 	printf("TEK     : "); printhex(tek,sizeof(tek)); printf("\n");
 
 	interval_t day_i = time2startinterval(time(NULL));

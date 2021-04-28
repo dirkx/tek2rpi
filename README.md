@@ -6,9 +6,10 @@ Compile with
 
         cc -I /opt/local/include -o gaen gaen.c /opt/local/lib/libmbedcrypto.a
 
-Example:
+Example (tek needs to be a base64 or a hex string of exactly 16 bytes)
 
-       ./tek2rpi p938d3f261dc56eb6eb4e8bd5e7909dd 2631600
+       ./tek2rpi 938d3f261dc56eb6eb4e8bd5e7909dd 2631600
+       ./tek2rpi  jD7634eDXXb/yhzhi+S/Xg==2631600
 
 Output:
 
