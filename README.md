@@ -6,10 +6,16 @@ Compile with
 
         cc -I /opt/local/include -o gaen gaen.c /opt/local/lib/libmbedcrypto.a
 
-Example (tek needs to be a base64 or a hex string of exactly 16 bytes)
+Example (tek needs to be a base64 or a hex string of exactly 16 bytes):
 
        ./tek2rpi 938d3f261dc56eb6eb4e8bd5e7909dd 2631600
-       ./tek2rpi  jD7634eDXXb/yhzhi+S/Xg==2631600
+       ./tek2rpi jD7634eDXXb/yhzhi+S/Xg== 2631600
+
+Or for today:
+
+       ./tek2rpi jD7634eDXXb/yhzhi+S/Xg==
+
+The provided interval is rounded down to the start of the UTC day
 
 Output:
 
