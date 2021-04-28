@@ -13,6 +13,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+#ifdef __FreeBSD__
+#include <sys/limits.h>
+#include <sys/types.h>
+#endif
+
 typedef unsigned int    interval_t;
 
 typedef uint8_t         tek_t[16];

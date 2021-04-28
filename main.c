@@ -28,17 +28,20 @@ int main(int argc, char ** argv) {
 
 	interval_t day_i = time2startinterval(time(NULL));
         if (argc > 2) 
-		day_i = atoi(argv[2]);
+		day_i = time2startinterval(interval2time(atoi(argv[2])));
 
     	time_t t = interval2time(day_i);
 	printf("Period  : %d\n", day_i);
+	printf("        : %ld Julian Seconds\n", t);
 
 	char buff[256];
 	strncpy(buff,asctime(gmtime(&t)),256);
-        char * p = strstr(buff,"00:00:00");
-	if (p) *p = 0;
-	char * q = index(p+1,' ');
-	printf("Day     :%s\n", buff);
+        char * p = strstr(buff,"00:00:00"), *q = 0;
+	if (p) { 
+		*p = 0;
+		q = index(p+1,' ');
+	};
+	printf("Day     : %s\n", buff);
 
         printf("RPIs for this day:\n");
 

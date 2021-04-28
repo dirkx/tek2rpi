@@ -5,7 +5,6 @@
 //  Created by Dirk-Willem van Gulik on 19/09/2020.
 //
 
-#include "gaen.h"
 
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
@@ -19,9 +18,16 @@
 #include <machine/byte_order.h>
 #define htole32(x) OSSwapHostToLittleInt32(x)
 #else
+#ifdef __FreeBSD__
+#include <sys/endian.h>
+#else
 #include <endian.h>
+#include <sys/limits.h>
+#include <sys/types.h>
+#endif
 #endif
 
+#include "gaen.h"
 // https://covid19-static.cdn-apple.com/applications/covid19/current/static/contact-tracing/pdf/ExposureNotification-CryptographySpecificationv1.2.pdf?1
 
 #define DAYS (14)     // days to keep
